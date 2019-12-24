@@ -1,0 +1,5 @@
+title 0.5
+browser->server :HTTP POST http://fullstack-exampleapp.herokuapp.com/spa
+server --> browser : HTTP status code 201
+
+
