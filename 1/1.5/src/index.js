@@ -8,7 +8,7 @@ const Part1 = (props) =>{
     )
 }
 const Part2 = (props) =>{
-    return(
+    return( 
         <p>
             {props.part2} {props.exercises2}
         </p>
