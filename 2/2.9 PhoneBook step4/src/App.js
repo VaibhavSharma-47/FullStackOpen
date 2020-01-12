@@ -1,5 +1,48 @@
 import React, { useState } from 'react'
 
+const Phonebook = ({filter,handleFilterChange}) =>{
+  return(
+    <>
+    <h2>Phonebook</h2>
+      filter shown with 
+      <input
+        value={filter}
+        onChange={handleFilterChange}
+        />
+    </>
+  )
+}
+const PersonForm =({addPerson,newName,handleNameChange,newNumber,handleNumberChange})=>{
+
+  return(
+    <form onSubmit={addPerson}>
+        <div>
+          name:
+          <input 
+            value={newName}
+            onChange={handleNameChange}
+            />
+            <br/>
+          number:
+          <input 
+            value={newNumber}
+            onChange={handleNumberChange}
+            />
+          <br/>
+        <div>
+          <button type="submit">add</button>
+        </div>
+        </div>
+      </form>
+  )
+}
+const Person =({rows,persontoshow}) =>{
+  return(
+    <div>
+        {rows(persontoshow)}
+    </div>
+  )
+}
 const App = () => {
   const [ persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -47,36 +90,12 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      filter shown with 
-      <input
-        value={filter}
-        onChange={handleFilterChange}
-        />
+      <Phonebook filter={filter} handleFilterChange={handleFilterChange}/>
       <h2>Add new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name:
-          <input 
-            value={newName}
-            onChange={handleNameChange}
-            />
-            <br/>
-          number:
-          <input 
-            value={newNumber}
-            onChange={handleNumberChange}
-            />
-          <br/>
-        <div>
-          <button type="submit">add</button>
-        </div>
-        </div>
-      </form>
+      <PersonForm addPerson={addPerson} value={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
+      
       <h2>Numbers</h2>
-      <div>
-        {rows()}
-      </div>
+      <Person rows={rows} persontoshow={persontoshow}/>
     </div>
   )
 }
