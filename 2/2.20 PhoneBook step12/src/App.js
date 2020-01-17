@@ -14,7 +14,7 @@ const Notificationmessage = ({message1})=>{
   //console.log("messsage 1",message1)
   return(
     <div style={style} key={message1}>
-      {`${message} is added`}
+      {`${message}`}
     </div>
   )
 }
@@ -66,7 +66,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [filter,setFilter] = useState('')
-  const [show,setShow] = useState(0)
+  const [error,setError] = useState(null)
   useEffect(()=>{
     personinfo.getAll()
       .then(data=>{
@@ -119,8 +119,8 @@ const App = () => {
           setPersons(persons.concat(response))
           console.log("Updated db response is" ,response)
         })
-        setShow(1)
-        setTimeout(()=>{setShow(0)},3000)
+        setError(`${newName} is added`)
+        setTimeout(()=>{setError(null)},3000)
     } else if((window.confirm(`${newName} is already added to Phone Book`))){
       const personObject = {
         name:newName,
@@ -134,9 +134,12 @@ const App = () => {
           setPersons(temp)
           console.log("Updated db")
         })
+        .catch(error=>{
+          setError(`Info of ${newName} is already removed`)
+          setTimeout(()=>setError(null),3000)
+        })
       
-      setShow(1)
-      setTimeout(()=>{setShow(0)},3000)
+    
     }else{
 
     }
@@ -148,7 +151,7 @@ const App = () => {
   return (
     <div>
       <Phonebook filter={filter} handleFilterChange={handleFilterChange}/>
-      {show?<Notificationmessage message1={newName}/>:<></>}
+      {error!==null?<Notificationmessage message1={error}/>:<></>}
       <h2>Add new</h2>
       <PersonForm addPerson={addPerson} value={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
